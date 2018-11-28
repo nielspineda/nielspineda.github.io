@@ -17,34 +17,6 @@
 		<!-- Fonts/Icons -->
 		<link data-brackets-id='15714' href="../assets/plugins/font-awesome/css/all.css" rel="stylesheet">
 		<link data-brackets-id='15715' href="../assets/plugins/themify/themify-icons.min.css" rel="stylesheet">
-        <!--<script>
-            const oktaJwtVerifier = new OktaJwtVerifier({
-            issuer: 'https://idx4.okta.com/oauth2/default',
-            assertClaims: {
-                aud: 'api://default',
-            },
-        });
-
-        function authenticationRequired(req, res, next) {
-            const authHeader = req.headers.authorization || '';
-            const match = authHeader.match(/Bearer (.+)/);
-
-            if (!match) {
-                return res.status(401).end();
-            }
-
-            const accessToken = match[1];
-            return oktaJwtVerifier.verifyAccessToken(accessToken)
-                .then((jwt) => {
-                    req.jwt = jwt;
-                    next();
-                })
-                .catch((err) => {
-                    // This is where the error I reported is thrown.
-                    res.status(401).send(err.message);
-                });
-        }
-        </script>-->
         
         <!-- OKTA Widget Script and Style -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,7 +27,6 @@
         
 	</head>
 	<body data-brackets-id='15716' data-preloader="2" data-spy="scroll" data-target=".navbar">
-		
 		<header data-brackets-id='15717'>
 			<!-- navbar -->
 			<nav data-brackets-id='15718' class="navbar navbar-absolute navbar-fixed"><!-- add 'navbar-dark/navbar-grey/navbar-transparent/navbar-transparent-dark' -->
@@ -80,7 +51,7 @@
 							<a data-brackets-id='15732' class="nav-link" href="#contact">Contact</a>
 						</li>
                         <li data-brackets-id='15733' class="nav-item nav-dropdown">
-							<a data-brackets-id='15734' class="nav-link" href="#">Coming Soon</a>
+							<a data-brackets-id='15734' class="nav-link" href="#">In Progress</a>
 				        	<ul data-brackets-id='15735' class="dropdown-menu">
 								<li data-brackets-id='15736'><a data-brackets-id='15737' href="../coding.html">Coding</a></li>
 								<li data-brackets-id='15738'><a data-brackets-id='15739' href="#">Resources</a></li>
@@ -95,14 +66,13 @@
 			</nav><!-- end navbar -->
 		</header>
 
+        
 		<!-- Scroll to top button -->
 		<div data-brackets-id='15742' class="scrolltotop">
 			<a data-brackets-id='15743' class="button-circle button-circle-sm button-circle-dark" href="#"><i data-brackets-id='15744' class="ti-arrow-up"></i></a>
 		</div>
 		<!-- end Scroll to top button -->
 
-        <!-- Okta Widget Container --> 
-        <!--<div id="okta-login-container"></div>-->
 		<!-- Home section -->
 		<div data-brackets-id='15745' class="section-fullscreen bg-image parallax" style="background-image: url(../assets/images/background.jpg)">
 			<div data-brackets-id='15746' class="bg-black-06">
@@ -449,69 +419,61 @@
 
 		<!-- ***** JAVASCRIPTS ***** -->
         <!-- Okta Widget Script --> 
-            <script>
-              signInWidgetConfig = {
-              // Enable or disable widget functionality with the following options. Some of these features require additional configuration in your Okta admin settings. Detailed information can be found here: https://github.com/okta/okta-signin-widget#okta-sign-in-widget
-              // Look and feel changes:
-              logo: '//logo.clearbit.com/okta.com', // Try changing "okta.com" to other domains, like: "workday.com", "splunk.com", or "delmonte.com"
-              language: 'en',                       // Try: [fr, de, es, ja, zh-CN] Full list: https://github.com/okta/okta-signin-widget#language-and-text
-              i18n: {
-                //Overrides default text when using English. Override other languages by adding additional sections.
-                'en': {
-                  'primaryauth.title': 'Sign In',   // Changes the sign in text
-                  'primaryauth.submit': 'Sign In',  // Changes the sign in button
-                  // More e.g. [primaryauth.username.placeholder,  primaryauth.password.placeholder, needhelp, etc.].
-                  // Full list here: https://github.com/okta/okta-signin-widget/blob/master/packages/@okta/i18n/dist/properties/login.properties
-                }
-              },
-              // Changes to widget functionality
-              features: {
-                registration: true,                 // Enable self-service registration flow
-                rememberMe: true,                   // Setting to false will remove the checkbox to save username
-                //multiOptionalFactorEnroll: true,  // Allow users to enroll in multiple optional factors before finishing the authentication flow.
-                //selfServiceUnlock: true,          // Will enable unlock in addition to forgotten password
-                //smsRecovery: true,                // Enable SMS-based account recovery
-                //callRecovery: true,               // Enable voice call-based account recovery
-                router: true,                       // Leave this set to true for the API demo
-              },
-                baseUrl: 'https://idx4.okta.com',
-                clientId: '0oa4zafb5PcAJf75J356',
-                redirectUri: 'https://developer.okta.com/live-widget',
+        <script type="text/javascript">
+          var oktaSignIn = new OktaSignIn({
+             baseUrl: 'https://idx4.okta.com',
+                clientId: '0oa4zafb5PcAJf75J356 ',
+                redirectUri: 'https://nielspineda.com/',
                 authParams: {
-                issuer: 'https://idx4.okta.com/oauth2/default',
-                responseType: ['id_token', 'token'],
-                scopes: ['openid', 'email', 'profile'],
+                    issuer: 'default',
+                    responseType: ['id_token','token'],
+                    display: 'page'
+            }
+          });
+          if (oktaSignIn.token.hasTokensInUrl()) {
+            oktaSignIn.token.parseTokensFromUrl(
+              function success(res) {
+                // The tokens are returned in the order requested by `responseType` above
+                var accessToken = res[0];
+                var idToken = res[1]
+
+                // Say hello to the person who just signed in:
+                console.log('Hello, ' + idToken.claims.email);
+
+                // Save the tokens for later use, e.g. if the page gets refreshed:
+                oktaSignIn.tokenManager.add('accessToken', accessToken);
+                oktaSignIn.tokenManager.add('idToken', idToken);
+
+                // Remove the tokens from the window location hash
+                window.location.hash='';
               },
-            };
-
-            signInWidget = new OktaSignIn(signInWidgetConfig);
-
-            function widgetSuccessCallback(res) {
-              var key = '';
-              if (res[0]) {
-                key = Object.keys(res[0])[0];
-                signInWidget.tokenManager.add(key, res[0]);
+              function error(err) {
+                // handle errors as needed
+                console.error(err);
               }
-              if (res[1]) {
-                key = Object.keys(res[1])[0];
-                signInWidget.tokenManager.add(key, res[1]);
+            );
+          } else {
+            oktaSignIn.session.get(function (res) {
+              // Session exists, show logged in state.
+              if (res.status === 'ACTIVE') {
+                console.log('Welcome back, ' + res.login);
+                return;
               }
-              if (res.status === 'SUCCESS') {
-                var token = signInWidget.tokenManager.get(key);
-                console.log("Logged in to Okta and issued token:");
-                console.log(token);
-                console.log("Reload this page to start over.");
-                alert("Logged in! Check your developer console for details");
-              }
-            }
-
-            function widgetErrorCallback (err) {
-            }
-
-            signInWidget.renderEl({el: '#okta-login-container'}, widgetSuccessCallback, widgetErrorCallback);
-
-          </script>
-        
+              // No session, show the login form
+              oktaSignIn.renderEl(
+                { el: '#widget-container' },
+                function success(res) {
+                  // Nothing to do in this case, the widget will automatically redirect
+                  // the user to Okta for authentication, then back to this page if successful
+                },
+                function error(err) {
+                  // handle errors as needed
+                  console.error(err);
+                }
+              );
+            });
+          }
+        </script>
         <!-- Libraries -->
         
 		<script data-brackets-id='15920' src="../assets/plugins/jquery.min.js"></script>
