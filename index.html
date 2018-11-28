@@ -419,7 +419,7 @@
 
 		<!-- ***** JAVASCRIPTS ***** -->
         <!-- Okta Widget Script --> 
-        <script type="text/javascript">
+<!--        <script type="text/javascript">
           var oktaSignIn = new OktaSignIn({
              baseUrl: 'https://idx4.okta.com',
                 clientId: '0oa4zafb5PcAJf75J356 ',
@@ -436,9 +436,6 @@
                 // The tokens are returned in the order requested by `responseType` above
                 var accessToken = res[0];
                 var idToken = res[1]
-
-                // Say hello to the person who just signed in:
-                console.log('Hello, ' + idToken.claims.email);
 
                 // Save the tokens for later use, e.g. if the page gets refreshed:
                 oktaSignIn.tokenManager.add('accessToken', accessToken);
@@ -473,7 +470,7 @@
               );
             });
           }
-        </script>
+        </script>-->
         <!-- Libraries -->
         
 		<script data-brackets-id='15920' src="../assets/plugins/jquery.min.js"></script>
