@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="">
         <meta name="keywords" content="">
-		<title>Mono - Coming Soon 3</title>
+		<title>NP Labs Coming Soon 3</title>
 		<!-- Favicon -->
         <link href="../assets/images/favicon.png" rel="shortcut icon">
 		<!-- CSS -->
@@ -47,7 +47,7 @@
 						<div class="position-middle">
 							<div class="row">
 								<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-									<h6>NP Lab executives, login for a sneak peek!</h6>
+									<h6 id="login-message">NP Lab executives, login for a sneak peek!</h6>
 									<div id="widget-container"></div>
 								</div>
 							</div><!-- end row(inner) -->
@@ -107,7 +107,8 @@
                 var idToken = res[1]
 
                 // Say hello to the person who just signed in:
-                console.log('Hello, ' + idToken.claims.email);
+                console.log('Access Token:, ', accessToken);
+                console.log('ID Token:, ', idToken);
 
                 // Save the tokens for later use, e.g. if the page gets refreshed:
                 oktaSignIn.tokenManager.add('accessToken', accessToken);
@@ -126,6 +127,7 @@
               // Session exists, show logged in state.
               if (res.status === 'ACTIVE') {
                 console.log('Welcome back, ' + res.login);
+                document.querySelector("#login-message").innerHTML="Welcome back, " +  res.login;
                 return;
               }
               // No session, show the login form
