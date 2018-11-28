@@ -106,13 +106,13 @@
                 var accessToken = res[0];
                 var idToken = res[1]
 
-                // Say hello to the person who just signed in:
-                console.log('Access Token:, ', accessToken);
-                console.log('ID Token:, ', idToken);
-
                 // Save the tokens for later use, e.g. if the page gets refreshed:
                 oktaSignIn.tokenManager.add('accessToken', accessToken);
                 oktaSignIn.tokenManager.add('idToken', idToken);
+                  
+                //Log the information in console
+                console.log('Access Token:, ', accessToken);
+                console.log('ID Token:, ', idToken);
 
                 // Remove the tokens from the window location hash
                 window.location.hash='';
@@ -145,42 +145,6 @@
             });
           }
         </script>
-        <script>
-        /*var signIn = new OktaSignIn({
-          baseUrl: 'https://idx4.okta.com',
-          clientId: '0oa4zafb5PcAJf75J356 ',
-          redirectUri: 'https://nielspineda.com/',
-          authParams: {
-            issuer: 'default',
-            responseType: ['id_token','token'],
-            display: 'page'
-          }
-        });
 
-        if (!signIn.token.hasTokensInUrl()) {
-          signIn.renderEl(
-            {el: '#widget-container'},
-            function() {},
-            function(err) { console.err(err) }
-          );
-        
-            debugger;
-        }
-
-        else {
-          signIn.token.parseTokensFromUrl(
-            function success(res) {
-              // Add the token to tokenManager to automatically renew the token when needed
-              signIn.tokenManager.add('id_token', res[0]);
-              signIn.tokenManager.add('access_token', res[1]);
-                console.log('access_token', res[1]); 
-            },
-            function error(err) {
-              console.log('handle error', err);
-                debugger;
-            }
-          );
-        }*/
-        </script>
 	</body>
 </html>
